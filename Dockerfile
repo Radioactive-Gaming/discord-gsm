@@ -28,4 +28,7 @@ CMD ["python", "main.py"]
 # Create the non-privileged user
 RUN adduser -D gsm
 
+# Grant permissions to the logs directory
+RUN chown -R gsm:gsm /usr/src/app/data/logs
+
 USER gsm

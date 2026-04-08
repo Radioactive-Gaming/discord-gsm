@@ -191,25 +191,16 @@ def is_owner(interaction: Interaction) -> bool:
     return interaction.user.id == interaction.guild.owner.id
 
 
-def is_administrator(interaction: Interaction) -> bool:
-    """Check is administrator"""
-    return interaction.user.guild_permissions.administrator
-
-
 def custom_command_queryserver_check(interaction: Interaction) -> bool:
     """Query server command check"""
     if env("COMMAND_QUERY_PUBLIC"):
         return True
-
-    return is_administrator(interaction)
 
 
 def cooldown_for_everyone_except_administrator(
     interaction: Interaction,
 ) -> Optional[app_commands.Cooldown]:
     """Cooldown for everyone except administrator"""
-    if is_administrator(interaction):
-        return None
 
     return app_commands.Cooldown(1, env("COMMAND_QUERY_COOLDOWN"))
 
@@ -508,7 +499,6 @@ async def command_queryserver(interaction: Interaction, game_id: str):
 )
 @app_commands.guild_only()
 @app_commands.describe(game_id="command.option.game_id")
-@app_commands.check(is_administrator)
 async def command_addserver(interaction: Interaction, game_id: str):
     """Add server in current channel"""
     Logger.command(interaction, game_id=game_id)
@@ -542,7 +532,6 @@ async def command_addserver(interaction: Interaction, game_id: str):
 @app_commands.guild_only()
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_delserver(
     interaction: Interaction,
     address: str,
@@ -563,7 +552,6 @@ async def command_delserver(
     name="refresh", description="command.refresh.description", guilds=whitelist_guilds
 )
 @app_commands.guild_only()
-@app_commands.check(is_administrator)
 async def command_refresh(interaction: Interaction):
     """Refresh servers\' messages in current channel"""
     Logger.command(interaction)
@@ -580,7 +568,6 @@ async def command_refresh(interaction: Interaction):
     guilds=whitelist_guilds,
 )
 @app_commands.guild_only()
-@app_commands.check(is_administrator)
 async def command_factoryreset(interaction: Interaction):
     """Delete all servers in current guild"""
     Logger.command(interaction)
@@ -632,7 +619,6 @@ async def command_factoryreset(interaction: Interaction):
 @app_commands.guild_only()
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_moveup(
     interaction: Interaction,
     address: str,
@@ -648,7 +634,6 @@ async def command_moveup(
 @app_commands.guild_only()
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_movedown(
     interaction: Interaction,
     address: str,
@@ -679,7 +664,6 @@ async def action_move(
 @app_commands.guild_only()
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_changestyle(
     interaction: Interaction,
     address: str,
@@ -733,7 +717,6 @@ async def command_changestyle(
 @app_commands.guild_only()
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_editstyledata(
     interaction: Interaction,
     address: str,
@@ -771,7 +754,6 @@ async def command_editstyledata(
 @app_commands.describe(channel="command.option.channel")
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_switch(
     interaction: Interaction,
     channel: discord.TextChannel,
@@ -811,7 +793,6 @@ async def command_switch(
 @app_commands.describe(timezone="command.option.timezone")
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_settimezone(
     interaction: Interaction,
     timezone: str,
@@ -854,7 +835,6 @@ async def command_settimezone(
         app_commands.Choice(name="command.choice.24_hour_clock", value=24),
     ]
 )
-@app_commands.check(is_administrator)
 async def command_setclock(
     interaction: Interaction,
     clock_format: app_commands.Choice[int],
@@ -889,7 +869,6 @@ async def command_setclock(
 @app_commands.describe(locale="command.option.locale")
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_setlocale(
     interaction: Interaction,
     locale: str,
@@ -923,7 +902,6 @@ async def command_setlocale(
 @app_commands.guild_only()
 @app_commands.describe(address="command.option.address")
 @app_commands.describe(query_port="command.option.query_port")
-@app_commands.check(is_administrator)
 async def command_setalert(
     interaction: Interaction,
     address: str,

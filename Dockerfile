@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.13-alpine
+FROM python:3.14.4-alpine3.23
 
 # Update the OS
 RUN apk update \

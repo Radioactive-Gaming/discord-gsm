@@ -15,10 +15,6 @@
 ![DiscordGSM Alert](https://discordgsm.com/game-server-monitor-alert.jpg?v=2)
 
 ## Installation
-We provide a public discord bot service which allows to monitor 10 servers per discord guild.
-
-[![DiscordGSM Thumbnail](https://discordgsm.com/add-to-server.png)](https://discordgsm.com/invite)
-
 For self hosting, please check https://discordgsm.com/guide#installation.
 
 ## Commands
